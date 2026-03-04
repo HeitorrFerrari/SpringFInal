@@ -5,8 +5,8 @@ import com.example.SpringFinal.Repositories.MilagreRepositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 
@@ -15,7 +15,7 @@ public class MilagreServices {
     @Autowired
     private MilagreRepositories milagreRepositories;
 
-    public List<MilagreModel> findAll(MilagreModel milagreModel) {
+    public List<MilagreModel> findAll() {
             return milagreRepositories.findAll();
     }
 
@@ -25,6 +25,18 @@ public class MilagreServices {
 
     public void deletarMilagre(Long id) {
         milagreRepositories.deleteById(id);
+    }
+
+    public Optional<MilagreModel> buscarId(Long id) {
+        return milagreRepositories.findById(id);
+    }
+
+    public MilagreModel atualizarMilargre(Long id, MilagreModel milagreModel) {
+        MilagreModel novoMilagre = milagreRepositories.save(milagreModel);
+
+        milagreModel.setNome(novoMilagre.getNome());
+
+        return milagreRepositories.save(milagreModel);
     }
 
 }
